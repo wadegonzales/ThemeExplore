@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Theme Finder v2</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;800&display=swap">
+<style>
+:root{--bg:#f9a98b;--fg:#3d2c4d;--font:Fraunces,Georgia,serif;--ink:#3d2c4d;--cream:#fff3dc;--lav:#a99fe0;--teal:#1f9e8a;--yel:#f9d44e;--cor:#f58a74;--dots:radial-gradient(rgba(255,255,255,.35) 2px,transparent 2.5px) 0 0/16px 16px;box-sizing:border-box;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);transition:background .5s,color .5s}
+main{position:relative;z-index:1;min-height:100%;display:flex;flex-direction:column;align-items:center;gap:16px;padding:18px 14px}
+button,select{font:inherit;font-family:system-ui,sans-serif;color:var(--ink);border:0;cursor:pointer;transition:transform .12s}
+button:active{transform:scale(.94)}
+.nav{width:min(1000px,100%);display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--cream);color:var(--ink);border-radius:99px;padding:8px 10px 8px 22px;box-shadow:0 4px 0 rgba(61,44,77,.2)}
+.logo{font:800 20px Fraunces,serif;margin-right:auto}
+.pill{background:#fff;border-radius:99px;padding:8px 16px;font-weight:700;font-size:14px;box-shadow:0 3px 0 rgba(61,44,77,.2)}
+.pill:hover{background:var(--yel)}
+.nav select{background:var(--yel);border-radius:99px;padding:8px 12px;font-weight:700;font-size:14px}
+.bento{width:min(1000px,100%);display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.bento.pop{animation:pop .45s}
+@keyframes pop{40%{transform:scale(1.02) rotate(-.5deg)}}
+.tile{position:relative;overflow:hidden;border-radius:30px;padding:22px;color:var(--ink);display:flex;flex-direction:column;gap:12px;font-family:system-ui,sans-serif}
+.tt{font:800 22px Fraunces,serif;margin:0}
+.th{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.hero{grid-column:span 5;grid-row:span 2;background:var(--lav) var(--dots);justify-content:space-between;color:var(--cream)}
+.hero h1{font:800 clamp(38px,6vw,58px)/1 Fraunces,serif;margin:0;text-shadow:3px 3px 0 #6b5fc0}
+.hero h1 small{font:700 12px system-ui;background:var(--cream);color:var(--ink);border-radius:99px;padding:3px 10px;vertical-align:middle;text-shadow:none}
+.hero p{margin:0;font-size:15px;line-height:1.5;color:var(--ink)}
+.big{background:var(--cream);align-self:flex-start;padding:14px 26px;font-size:17px;font-weight:800;border-radius:99px;box-shadow:0 5px 0 #6b5fc0;transition:transform .1s,box-shadow .1s}
+.big:hover{background:#fff;transform:translateY(-2px)}
+.big:active{transform:translateY(4px);box-shadow:0 1px 0 #6b5fc0}
+#dice{display:inline-block}#dice.roll{animation:roll .6s}
+@keyframes roll{to{transform:rotate(540deg) scale(1.4)}}
+.teal{grid-column:span 4;background:var(--teal);color:var(--cream)}
+.yellow{grid-column:span 3;background:var(--yel) var(--dots)}
+.coral{grid-column:span 7;background:var(--cor)}
+.prev{grid-column:span 7;background:var(--bg);color:var(--fg);font-family:var(--font);border:3px dashed var(--fg);flex-direction:row;align-items:center;flex-wrap:wrap}
+.prev .tag{position:absolute;top:10px;right:14px;font:700 11px system-ui;letter-spacing:1px;text-transform:uppercase;opacity:.7}
+.av{width:56px;height:56px;border-radius:18px;background:var(--fg);color:var(--bg);display:grid;place-items:center;font-size:26px;flex:none}
+.prev div{flex:1;min-width:150px}.prev h2{margin:0 0 2px;font-size:22px}.prev p{margin:0;opacity:.8;font-size:14px}
+.prev .btn{padding:9px 20px;border-radius:99px;background:var(--fg);color:var(--bg);font-weight:700;font-size:14px}
+.burst{grid-column:span 5;background:#cfc8f2;align-items:center;text-align:center}
+.bw{position:relative;width:150px;height:150px;margin:0 auto;animation:spin 14s linear infinite}
+.bw svg{width:100%;height:100%;display:block}
+.bt{position:absolute;inset:0;display:grid;place-content:center;font-family:Fraunces,serif;animation:spin 14s linear infinite reverse}
+.bt span{font-size:26px}.bt b{font-size:22px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.mood{display:flex;flex-direction:column;gap:2px;font-size:14px}
+.pass{color:#1c7a4a}.fail{color:#c0392b}
+.cream{grid-column:span 6;background:var(--cream)}
+.cin{display:flex;align-items:center;gap:10px}
+input:not([type=color]){background:var(--cream);color:var(--ink);border:3px solid transparent;border-radius:99px;font:inherit;font-family:system-ui,sans-serif;padding:10px 16px;outline:none;min-width:0;width:100%;transition:border-color .2s}
+input:not([type=color]):focus{border-color:var(--ink)}
+input.bad{border-color:#e0372f;animation:sh .3s}
+@keyframes sh{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+input[type=color]{-webkit-appearance:none;appearance:none;width:52px;height:52px;flex:none;padding:0;border:4px solid var(--cream);border-radius:50%;background:none;cursor:pointer;transition:transform .2s;box-shadow:0 3px 0 rgba(61,44,77,.25)}
+input[type=color]:hover{transform:scale(1.12) rotate(-8deg)}
+input[type=color]::-webkit-color-swatch-wrapper{padding:0}
+input[type=color]::-webkit-color-swatch{border:0;border-radius:50%}
+input[type=color]::-moz-color-swatch{border:0;border-radius:50%}
+.lock{background:rgba(255,243,220,.9);padding:4px 11px;font-size:12px;font-weight:700;border-radius:99px}
+.lock[aria-pressed=true]{background:var(--ink);color:var(--cream)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:6px 14px;font-size:14px;border-radius:99px;background:var(--cream);box-shadow:0 3px 0 rgba(61,44,77,.2)}
+.chip:hover{transform:translateY(-2px) rotate(-2deg)}
+.fav{display:inline-flex}.fav .chip:first-child{border-radius:99px 0 0 99px}.fav .chip:last-child{border-radius:0 99px 99px 0;padding:6px 10px}
+.deco{position:absolute;width:64px;height:64px;right:14px;bottom:14px;animation:spin 10s linear infinite;opacity:.9}
+.flowers{display:flex;gap:6px}.flowers svg{width:30px;height:30px;animation:spin 8s linear infinite}
+.mascot{width:96px;height:96px;align-self:center}
+.wave{transform-origin:88px 52px;animation:wave 1.2s ease-in-out infinite alternate}
+@keyframes wave{to{transform:rotate(-22deg)}}
+.hint{font-size:13px;color:var(--fg);opacity:.75;text-align:center}
+kbd{border:1.5px solid currentColor;border-radius:6px;padding:0 6px;font:inherit}
+#toast{position:fixed;bottom:calc(18px + env(safe-area-inset-bottom,0px));left:50%;transform:translate(-50%,30px);background:var(--ink);color:var(--cream);padding:10px 22px;border-radius:99px;font:700 14px system-ui;opacity:0;transition:opacity .25s,transform .35s cubic-bezier(.3,1.6,.5,1);pointer-events:none;z-index:5}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+.bgText{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.w{position:absolute;margin:0;white-space:nowrap;transition:left .8s,top .8s;animation:d var(--t) ease-in-out infinite alternate}
+@keyframes d{to{transform:translate(var(--dx),var(--dy))}}
+@media (prefers-reduced-motion:reduce){.w,.bw,.bt,.deco,.flowers svg,.wave,.bento.pop,#dice.roll{animation:none}body,*{transition:none!important}}
+@media (max-width:760px){.tile{grid-column:1/-1!important;grid-row:auto!important}.nav{border-radius:28px;padding:12px}.logo{width:100%}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="sp" viewBox="0 0 100 100"><path d="M50 4C55 34 66 45 96 50 66 55 55 66 50 96 45 66 34 55 4 50 34 45 45 34 50 4Z"/></symbol>
+<symbol id="fl" viewBox="0 0 40 40"><g fill="#fff3dc"><circle cx="20" cy="8" r="7"/><circle cx="20" cy="32" r="7"/><circle cx="8" cy="20" r="7"/><circle cx="32" cy="20" r="7"/></g><circle cx="20" cy="20" r="6" fill="#f9d44e"/></symbol>
+</defs></svg>
+<div class="bgText" id="bgText" aria-hidden="true"></div>
+<main>
+  <nav class="nav"><span class="logo">Theme Finder ✦</span>
+    <button class="pill" id="undo" title="Z">↩️ Undo</button><button class="pill" id="save">⭐ Save</button>
+    <select id="fmt" aria-label="Copy format"><option value="css">CSS</option><option value="vars">CSS variables</option><option value="tw">Tailwind</option><option value="json">JSON</option></select>
+    <button class="pill" id="copy" title="C">📋 Copy</button><button class="pill" id="share">🔗 Share</button>
+  </nav>
+
+  <div class="bento" id="panel">
+    <section class="tile hero"><h1>Find your vibe <small>V2</small></h1><p>Pick colors, test fonts and steal the look. Everything updates live, right behind these tiles.</p><button class="big" id="shuf" title="Space"><span id="dice">🎲</span> Surprise me!</button></section>
+
+    <section class="tile teal"><svg class="deco" aria-hidden="true"><use href="#sp" fill="#fff3dc"/></svg>
+      <div class="th"><label class="tt" for="bg">Background</label><button class="lock" data-k="bg" aria-pressed="false" title="Keep this when shuffling">🔓 free</button></div>
+      <div class="cin"><input type="color" id="bgC" aria-label="Background picker"><input id="bg" autocomplete="off" spellcheck="false" placeholder="#f9a98b or navy"></div></section>
+
+    <section class="tile yellow">
+      <div class="th"><label class="tt" for="fg">Text</label><button class="lock" data-k="fg" aria-pressed="false" title="Keep this when shuffling">🔓 free</button></div>
+      <svg class="mascot" viewBox="0 0 110 100" aria-hidden="true"><g class="wave"><path d="M88 52Q104 40 100 22" stroke="#f0604d" stroke-width="7" stroke-linecap="round" fill="none"/><circle cx="100" cy="20" r="7" fill="#fff3dc"/></g><path d="M50 90C8 62 4 30 28 20 40 15 48 22 50 30 52 22 60 15 72 20 96 30 92 62 50 90Z" fill="#f0604d"/><circle cx="38" cy="44" r="4.5" fill="#3d2c4d"/><circle cx="62" cy="44" r="4.5" fill="#3d2c4d"/><path d="M40 56Q50 68 60 56" stroke="#3d2c4d" stroke-width="3.5" stroke-linecap="round" fill="none"/><circle cx="30" cy="54" r="5" fill="#ff9c8f"/><circle cx="70" cy="54" r="5" fill="#ff9c8f"/></svg>
+      <div class="cin"><input type="color" id="fgC" aria-label="Font color picker"><input id="fg" autocomplete="off" spellcheck="false" placeholder="#3d2c4d"></div></section>
+
+    <section class="tile coral">
+      <div class="th"><label class="tt" for="font">Font</label><div class="flowers" aria-hidden="true"><svg><use href="#fl"/></svg><svg><use href="#fl"/></svg><svg><use href="#fl"/></svg></div><button class="lock" data-k="font" aria-pressed="false" title="Keep this when shuffling">🔓 free</button></div>
+      <input id="font" list="fl" autocomplete="off" spellcheck="false" placeholder="Type a font or tap one below">
+      <datalist id="fl"></datalist><div class="chips" id="qf"></div></section>
+
+    <section class="tile prev"><span class="tag">Live preview</span><span class="av">Aa</span><div><h2>Looking good?</h2><p>This is how your text feels in the wild.</p></div><span class="btn">Try it</span></section>
+
+    <section class="tile burst"><div class="tt">Readability</div><div id="badge"></div></section>
+
+    <section class="tile cream"><div class="tt">Starter vibes</div><div class="chips" id="pre"></div></section>
+    <section class="tile cream"><div class="tt">My favorites</div><div class="chips" id="fav"></div></section>
+  </div>
+  <div class="hint"><kbd>Space</kbd> surprise · <kbd>Z</kbd> undo · <kbd>C</kbd> copy</div>
+</main>
+<div id="toast" role="status"></div>
+<script>
+const $=s=>document.querySelector(s),R=document.documentElement;
+const cx=document.createElement('canvas').getContext('2d');
+const FONTS=['Inter','Poppins','Playfair Display','Space Grotesk','Space Mono','JetBrains Mono','Cormorant Garamond','Bebas Neue','DM Serif Display','Oswald','Montserrat','Lora','Archivo Black','Syne','Unbounded'];
+const ALL=FONTS.concat(['sans-serif','serif','monospace','Helvetica','Arial','Fraunces']),GF=FONTS.concat('Fraunces');
+const QF=['Fraunces','Inter','Playfair Display','Space Mono','Bebas Neue','Syne','Lora','Unbounded'];
+const PRE={'🍑 Peachy':['#f9a98b','#3d2c4d','Fraunces'],'🎬 Cinematic':['#0b0b10','#e8e4dc','Cormorant Garamond'],'🌊 Kanagawa':['#1f1f28','#dcd7ba','JetBrains Mono'],'❄️ Nord':['#2e3440','#eceff4','Inter'],'🧛 Dracula':['#282a36','#f8f8f2','Space Mono'],'☀️ Solarized':['#fdf6e3','#586e75','Lora'],'💚 Terminal':['#000000','#00ff66','monospace']};
+const STAR=Array.from({length:48},(_,i)=>{const a=i*Math.PI/24,r=i%2?40:49;return(50+r*Math.cos(a)).toFixed(1)+','+(50+r*Math.sin(a)).toFixed(1)}).join(' ');
+const K=['bg','fg','font'],el={bg:$('#bg'),fg:$('#fg'),font:$('#font')};
+let S={bg:'#f9a98b',fg:'#3d2c4d',font:'Fraunces'},hist=[],last='',locks={},tm,favs=[];
+
+const hex=c=>{cx.fillStyle='#000';cx.fillStyle=c;return cx.fillStyle};
+const rgb=c=>{const h=hex(c);return h[0]=='#'?[1,3,5].map(i=>parseInt(h.substr(i,2),16)):h.match(/[\d.]+/g).slice(0,3).map(Number)};
+const h6=c=>'#'+rgb(c).map(v=>Math.round(v).toString(16).padStart(2,'0')).join('');
+const lum=c=>{const[r,g,b]=rgb(c).map(v=>{v/=255;return v<=.03928?v/12.92:((v+.055)/1.055)**2.4});return .2126*r+.7152*g+.0722*b};
+const ratio=(a,b)=>{const x=lum(a),y=lum(b);return(Math.max(x,y)+.05)/(Math.min(x,y)+.05)};
+const colorOK=v=>v&&CSS.supports('color',v),fontOK=v=>v&&CSS.supports('font-family',v);
+const fname=v=>{const n=v.split(',')[0].replace(/["']/g,'').trim().toLowerCase();return ALL.find(x=>x.toLowerCase()==n)};
+
+const loaded=new Set(['Fraunces']);
+function loadFont(v){const f=fname(v);if(f&&GF.includes(f)&&!loaded.has(f)){loaded.add(f);const l=document.createElement('link');l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family='+f.replace(/ /g,'+')+':wght@400;700&display=swap';document.head.append(l)}}
+
+function render(){
+  K.forEach(k=>{const v=el[k].value.trim(),ok=k=='font'?fontOK(v):colorOK(v);el[k].classList.toggle('bad',!ok);if(ok)S[k]=v});
+  R.style.setProperty('--bg',S.bg);R.style.setProperty('--fg',S.fg);
+  loadFont(S.font);R.style.setProperty('--font',S.font+',system-ui,sans-serif');
+  $('#bgC').value=h6(S.bg);$('#fgC').value=h6(S.fg);
+  const r=ratio(S.bg,S.fg),t=(ok,l)=>`<span class="${ok?'pass':'fail'}">${l} ${ok?'✓':'✗'}</span>`;
+  const m=r>=7?['😍','Crystal clear','#7bd88f']:r>=4.5?['😎','Looks good','#7bd88f']:r>=3?['😬','Squint territory','#f9d44e']:['🙈','Unreadable','#ff8a80'];
+  $('#badge').innerHTML=`<div class="bw"><svg viewBox="0 0 100 100"><polygon points="${STAR}" fill="${m[2]}"/></svg><div class="bt"><span>${m[0]}</span><b>${r.toFixed(1)}:1</b></div></div><div class="mood"><b>${m[1]}</b><span>${t(r>=4.5,'AA')} · ${t(r>=7,'AAA')}</span></div>`;
+}
+function commit(){const j=JSON.stringify(S);if(j==last)return;if(last)hist.push(last);last=j}
+function set(t,c=true){S={...t};K.forEach(k=>el[k].value=S[k]);render();if(c)commit()}
+function typing(){render();clearTimeout(tm);tm=setTimeout(commit,500)}
+K.forEach(k=>el[k].addEventListener('input',typing));
+[['bgC','bg'],['fgC','fg']].forEach(([c,k])=>$('#'+c).addEventListener('input',e=>{el[k].value=e.target.value;typing()}));
+function undo(){if(!hist.length)return toast('Nothing to undo yet 🤷');const p=JSON.parse(hist.pop());last=JSON.stringify(p);set(p,false);toast('Undone ↩️')}
+
+function rnd(){
+  const h=Math.random()*360|0,t={};
+  t.bg=locks.bg?S.bg:hex(`hsl(${h},${25+Math.random()*50|0}%,${Math.random()<.6?10+Math.random()*10:70+Math.random()*20}%)`);
+  const dark=lum(t.bg)<.4;let l=dark?75+Math.random()*15:12+Math.random()*12,i=0;
+  if(locks.fg)t.fg=S.fg;else{do{t.fg=hex(`hsl(${(h+(Math.random()<.5?0:180))%360},${20+Math.random()*50|0}%,${l}%)`);l+=dark?2:-2}while(ratio(t.bg,t.fg)<4.5&&++i<30)}
+  t.font=locks.font?S.font:FONTS[Math.random()*FONTS.length|0];
+  return t;
+}
+function shuffle(){
+  set(rnd());scatter();
+  const d=$('#dice'),p=$('#panel');d.classList.remove('roll');p.classList.remove('pop');void d.offsetWidth;d.classList.add('roll');p.classList.add('pop');
+  toast(['Fresh vibe! ✨','Ooh, nice 👀','Plot twist 🎭','Rolled a good one 🎲','Groovy 🌼'][Math.random()*5|0]);
+}
+
+const W=[['green','color:#2ecc71'],['blue','color:#3b82f6'],['red','color:#ef4444'],['white','color:#fff'],['black','color:#000'],['monospace','font-family:monospace'],['helvetica','font-family:Helvetica,Arial,sans-serif'],['arial','font-family:Arial,sans-serif'],['OCR','font-family:"OCR A Std","OCR-B","Courier New",monospace'],['serif','font-family:serif']];
+[[100,1,0],[60,.7,1],[30,.5,3]].forEach(([s,o,b])=>W.forEach(([w,st])=>{
+  const p=document.createElement('p');p.className='w';p.textContent=w;
+  p.style.cssText=`${st};font-size:${s}px;opacity:${o};filter:blur(${b}px);--dx:${Math.random()*60-30|0}px;--dy:${Math.random()*60-30|0}px;--t:${8+Math.random()*8|0}s`;
+  $('#bgText').append(p)}));
+function scatter(){document.querySelectorAll('.w').forEach(w=>{w.style.left=Math.random()*85+'%';w.style.top=Math.random()*90+'%'})}
+
+function chip(t,name){const b=document.createElement('button');b.className='chip';b.textContent=name;b.style.cssText=`background:${t.bg};color:${t.fg};font-family:${t.font},sans-serif;box-shadow:0 3px 0 ${t.fg}`;loadFont(t.font);b.onclick=()=>{set(t);toast('Applied ✨')};return b}
+Object.entries(PRE).forEach(([n,[bg,fg,font]])=>$('#pre').append(chip({bg,fg,font},n)));
+QF.forEach(f=>{const b=document.createElement('button');b.className='chip';b.textContent=f;b.style.fontFamily=`'${f}',sans-serif`;loadFont(f);b.onclick=()=>{el.font.value=f;typing()};$('#qf').append(b)});
+try{favs=JSON.parse(localStorage.getItem('tf2-favs')||'[]')}catch{}
+function renderFavs(){
+  const box=$('#fav');box.innerHTML='';
+  if(!favs.length)box.innerHTML='<span style="font-size:14px;opacity:.7">Nothing here yet. Hit ⭐ Save when you find one you love!</span>';
+  favs.forEach((t,i)=>{const w=document.createElement('span');w.className='fav';const x=document.createElement('button');x.className='chip';x.textContent='×';x.setAttribute('aria-label','Remove favorite');x.onclick=()=>{favs.splice(i,1);saveFavs()};w.append(chip(t,'Aa '+(fname(t.font)||'Theme')),x);box.append(w)});
+}
+function saveFavs(){try{localStorage.setItem('tf2-favs',JSON.stringify(favs))}catch{}renderFavs()}
+$('#save').onclick=()=>{favs.unshift({...S});favs=favs.slice(0,12);saveFavs();toast('Saved! ⭐')};
+
+function out(){const{bg,fg,font}=S,f=$('#fmt').value,n=font.split(',')[0].replace(/["']/g,'').trim();
+  return f=='css'?`body {\n  background-color: ${bg};\n  color: ${fg};\n  font-family: ${font};\n}`
+  :f=='vars'?`:root {\n  --bg: ${bg};\n  --fg: ${fg};\n  --font: ${font};\n}`
+  :f=='tw'?`theme: {\n  extend: {\n    colors: { bg: '${bg}', fg: '${fg}' },\n    fontFamily: { theme: ['${n}'] }\n  }\n}`
+  :JSON.stringify(S,null,2)}
+async function copy(t,m){try{await navigator.clipboard.writeText(t)}catch{const a=document.createElement('textarea');a.value=t;document.body.append(a);a.select();document.execCommand('copy');a.remove()}toast(m)}
+$('#copy').onclick=()=>copy(out(),'Copied! 📋');
+$('#share').onclick=()=>{const i=ALL.indexOf(fname(S.font));copy(location.href.split('#')[0]+'#t-'+h6(S.bg).slice(1)+'-'+h6(S.fg).slice(1)+'-'+Math.max(i,0),i<0?'Link copied (custom font not included) 🔗':'Link copied! 🔗')};
+function fromHash(){const m=location.hash.match(/^#t-([0-9a-f]{6})-([0-9a-f]{6})-(\d+)$/);if(m&&ALL[+m[3]]){set({bg:'#'+m[1],fg:'#'+m[2],font:ALL[+m[3]]});return true}}
+addEventListener('hashchange',fromHash);
+
+document.querySelectorAll('.lock').forEach(b=>b.onclick=()=>{const k=b.dataset.k;locks[k]=!locks[k];b.textContent=locks[k]?'🔒 locked':'🔓 free';b.setAttribute('aria-pressed',!!locks[k]);toast(locks[k]?'Locked: Surprise me will keep it':'Unlocked')});
+$('#shuf').onclick=shuffle;$('#undo').onclick=undo;
+$('#fl').innerHTML=ALL.map(f=>`<option value="${f}">`).join('');
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),1600)}
+addEventListener('keydown',e=>{
+  if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)||e.metaKey||e.ctrlKey||e.altKey)return;
+  if(e.code=='Space'){e.preventDefault();shuffle()}
+  else if(e.key=='z')undo();
+  else if(e.key=='c')copy(out(),'Copied! 📋');
+});
+
+scatter();renderFavs();
+if(!fromHash())set(S);
+</script>
+</body>
+</html>
